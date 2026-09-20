@@ -6,7 +6,8 @@ using namespace std;
 void SSTable::write_entries(vector<Node*>entries){
     ofstream file(filename,ios::binary);
     int counter=0;
-
+    uint8_t level=this->level;
+    file.write(reinterpret_cast<char*>(&level),sizeof(level)); 
     for(Node * node:entries){
         uint32_t key_length=node->key.size();
         uint32_t val_length=node->value.size();
@@ -15,6 +16,14 @@ void SSTable::write_entries(vector<Node*>entries){
         if(counter%10==0){
             streampos offset=file.tellp();
             index[node->key]=offset;
+        }
+
+        if(counter==0){
+            min_key=node->key;
+        }
+
+        if(counter==entries.size()-1){
+            max_key=node->key;
         }
 
         file.write(reinterpret_cast<char *>(&key_length),sizeof(key_length));

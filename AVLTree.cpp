@@ -148,6 +148,7 @@ Node *AVLTree::insert(Node* root,string key,string value,bool tombstone){
 
             }
         }
+        return root;
 
     }
 
@@ -263,6 +264,7 @@ Node *AVLTree::insert(Node* root,string key,string value,bool tombstone){
 
         return root;
     }
+    return root;
 }
 
 
